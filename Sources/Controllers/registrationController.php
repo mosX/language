@@ -13,6 +13,8 @@
             //$this->m->addJS("bootstrap.min")->addJS("phaser.min");
             $this->m->addJS("phaser.min");
             
+            $_POST = json_decode(file_get_contents('php://input'), true);   //для Content-Type: application/json
+            
             xload('class.registration');
             $registration = new Registration($this->m);
             $registration->registration();

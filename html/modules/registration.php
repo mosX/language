@@ -1,6 +1,33 @@
+<script>    
+    app.controller('registrationCtrl', function($scope,$http){
+        $scope.form = {};
+        
+        $scope.submit = function(event){
+            $http({
+                method: 'POST',
+                url: '/registration/',
+                data:$scope.form,
+            }).then(function successCallback(response) {
+                if(response.data.status == 'success'){
+                    location.reload();
+                }else if(response.data.status == 'error'){
+                    $scope.firstname_error = response.data.messages.firstname;
+                    $scope.lastname_error = response.data.messages.lastname;
+                    $scope.email_error = response.data.messages.email;
+                    $scope.password_error = response.data.messages.password;
+                    $scope.conf_password_error = response.data.messages.conf_password;                    
+                }
+            });
+            
+            event.preventDefault();
+        }
+        
+    });
+</script>
+
 
 <script>
-    $('document').ready(function(){
+    /*$('document').ready(function(){
         
         $('#registrationModal').submit(function(){
             var data = new Object();
@@ -30,9 +57,9 @@
             });            
             return false;
         });
-    });
+    });*/
 </script>
-<div id="registrationModal" class="modal fade" role="dialog">
+<div id="registrationModal" class="modal fade" role="dialog" ng-controller="registrationCtrl">
     <div class="modal-dialog"  style="width:600px;">
         <div class="modal-content">
             <div class="modal-header">
@@ -40,14 +67,14 @@
                 <h4 class="modal-title">Регистрация</h4>
             </div>
             <div class="modal-body">
-                <form class="form">
+                <form class="form" ng-submit="submit($event)">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-4">Имя</div>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="firstname">
-                                <div class="error firstname_error"></div>
+                                <input type="text" class="form-control" name="firstname" ng-model="form.firstname">
+                                <div class="error firstname_error">{{firstname_error}}</div>
                             </div>
                         </div>
                     </div>
@@ -56,8 +83,8 @@
                             <div class="col-sm-4">Фамилия</div>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="lastname">
-                                <div class="error lastname_error"></div>
+                                <input type="text" class="form-control" name="lastname" ng-model="form.lastname">
+                                <div class="error lastname_error">{{lastname_error}}</div>
                             </div>
                         </div>
                     </div>
@@ -66,8 +93,8 @@
                             <div class="col-sm-4">Имейл</div>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="email">
-                                <div class="error email_error"></div>
+                                <input type="text" class="form-control" name="email" ng-model="form.email">
+                                <div class="error email_error">{{email_error}}</div>
                             </div>
                         </div>
                     </div>
@@ -76,8 +103,8 @@
                             <div class="col-sm-4">Пароль</div>
 
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" name="password">
-                                <div class="error password_error"></div>
+                                <input type="password" class="form-control" name="password" ng-model="form.password">
+                                <div class="error password_error">{{password_error}}</div>
                             </div>
                         </div>
                     </div>
@@ -86,8 +113,8 @@
                             <div class="col-sm-4">Повторить Пароль</div>
 
                             <div class="col-sm-8">
-                                <input type="password" class="form-control" name="conf_password">
-                                <div class="error conf_password_error"></div>
+                                <input type="password" class="form-control" name="conf_password" ng-model="form.conf_password">
+                                <div class="error conf_password_error">{{conf_password_error}}</div>
                             </div>
                         </div>
                     </div>

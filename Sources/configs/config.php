@@ -346,5 +346,5 @@ $config = array(
 );
 
 $this->addCSS('bootstrap.min')->addCSS('main');
-$this->preAddJS('jquery')->addJS('bootstrap.min')->addJS('main');
+$this->preAddJS('jquery')->addJS('bootstrap.min')->addJS('angular.min');
 ?>

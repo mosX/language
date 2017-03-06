@@ -7,7 +7,11 @@
         <?= $this->js() ?>
         <?= $this->header() ?>
     </head>
-    <body>
+    <body ng-app="app">
+        <script>
+            var app = angular.module("app",[]);
+        </script>
+        
         <?=$this->module('header')?>
         <?=$this->module('auth')?>
         <?=$this->module('registration')?>
