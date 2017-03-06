@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Мар 05 2017 г., 23:10
+-- Время создания: Мар 06 2017 г., 23:58
 -- Версия сервера: 5.6.26-log
 -- Версия PHP: 5.6.12
 
@@ -19,6 +19,64 @@ SET time_zone = "+00:00";
 --
 -- База данных: `language`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `lessons`
+--
+
+CREATE TABLE `lessons` (
+  `id` int(11) NOT NULL,
+  `level` int(11) NOT NULL DEFAULT '0',
+  `type` tinyint(2) NOT NULL DEFAULT '0',
+  `order` tinyint(3) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `lessons`
+--
+
+INSERT INTO `lessons` (`id`, `level`, `type`, `order`, `status`, `date`) VALUES
+(1, 1, 1, 1, 1, '0000-00-00 00:00:00'),
+(2, 1, 1, 2, 1, '0000-00-00 00:00:00'),
+(3, 1, 1, 3, 1, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `levels`
+--
+
+CREATE TABLE `levels` (
+  `id` int(11) NOT NULL,
+  `order` tinyint(5) NOT NULL DEFAULT '0',
+  `status` tinyint(2) NOT NULL DEFAULT '1',
+  `date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `levels`
+--
+
+INSERT INTO `levels` (`id`, `order`, `status`, `date`) VALUES
+(1, 1, 1, '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `question`
+--
+
+CREATE TABLE `question` (
+  `id` int(11) NOT NULL,
+  `lesson_id` int(11) NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT '1',
+  `status` tinyint(2) DEFAULT '1',
+  `date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -80,13 +138,29 @@ CREATE TABLE `x_session` (
 --
 
 INSERT INTO `x_session` (`id`, `session_id`, `time`, `userid`, `device_id`, `username`, `guest`, `guest_key`, `usertype`, `status`, `remember`, `gid`, `ip`, `user_agent`) VALUES
-(9, '0158288d27bd311cb1a518ea39d41be6', 1488748175, 1, '', '279229931@qip.ru', 0, '', 'user', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0'),
-(10, 'ed7df140ecdeee5187d9a684c062f6a8', 1488737211, 0, '', '', 1, '', '', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0'),
-(11, '9c4aa25adf46a0577bb85d99f1c3db68', 1488744619, 0, '', '', 1, '', '', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36');
+(12, '158ee6afa18a2c9cd671d763d68059b2', 1488834899, 0, '', '', 1, '', '', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0');
 
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `lessons`
+--
+ALTER TABLE `lessons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `levels`
+--
+ALTER TABLE `levels`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `question`
+--
+ALTER TABLE `question`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `users`
@@ -107,6 +181,21 @@ ALTER TABLE `x_session`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `lessons`
+--
+ALTER TABLE `lessons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT для таблицы `levels`
+--
+ALTER TABLE `levels`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT для таблицы `question`
+--
+ALTER TABLE `question`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
@@ -115,7 +204,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `x_session`
 --
 ALTER TABLE `x_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
