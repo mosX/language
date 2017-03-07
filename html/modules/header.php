@@ -11,8 +11,9 @@
             <a class="navbar-brand logo" href="/"></a>
         </div>
 
-        <ul class="nav navbar-nav navbar-collapse collapse" id="headerMenu">            
+        <ul class="nav navbar-nav navbar-collapse collapse" id="headerMenu">
             <li><a href="/">Главная</a></li>
+            <li><a href="/level/">Уроки</a></li>
         </ul>
         
         <ul class="pull-right nav navbar-nav">

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Мар 06 2017 г., 23:58
+-- Время создания: Мар 07 2017 г., 18:19
 -- Версия сервера: 5.6.26-log
 -- Версия PHP: 5.6.12
 
@@ -67,16 +67,30 @@ INSERT INTO `levels` (`id`, `order`, `status`, `date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `question`
+-- Структура таблицы `questions`
 --
 
-CREATE TABLE `question` (
+CREATE TABLE `questions` (
   `id` int(11) NOT NULL,
   `lesson_id` int(11) NOT NULL,
+  `element` text NOT NULL,
   `type` tinyint(4) NOT NULL DEFAULT '1',
+  `use` tinyint(2) NOT NULL DEFAULT '1',
   `status` tinyint(2) DEFAULT '1',
   `date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `questions`
+--
+
+INSERT INTO `questions` (`id`, `lesson_id`, `element`, `type`, `use`, `status`, `date`) VALUES
+(1, 1, 'G', 1, 1, 1, '0000-00-00 00:00:00'),
+(2, 1, 'L', 1, 0, 1, '0000-00-00 00:00:00'),
+(3, 1, 'F', 1, 1, 1, '0000-00-00 00:00:00'),
+(4, 1, 'P', 1, 0, 1, '0000-00-00 00:00:00'),
+(5, 1, 'I', 1, 1, 1, '0000-00-00 00:00:00'),
+(6, 1, 'A', 1, 1, 1, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -138,7 +152,7 @@ CREATE TABLE `x_session` (
 --
 
 INSERT INTO `x_session` (`id`, `session_id`, `time`, `userid`, `device_id`, `username`, `guest`, `guest_key`, `usertype`, `status`, `remember`, `gid`, `ip`, `user_agent`) VALUES
-(12, '158ee6afa18a2c9cd671d763d68059b2', 1488834899, 0, '', '', 1, '', '', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0');
+(14, '744621dfce8f5d24b08b844e15328bdc', 1488900383, 0, '', '', 1, '', '', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0');
 
 --
 -- Индексы сохранённых таблиц
@@ -157,9 +171,9 @@ ALTER TABLE `levels`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `question`
+-- Индексы таблицы `questions`
 --
-ALTER TABLE `question`
+ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -191,10 +205,10 @@ ALTER TABLE `lessons`
 ALTER TABLE `levels`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT для таблицы `question`
+-- AUTO_INCREMENT для таблицы `questions`
 --
-ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
@@ -204,7 +218,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `x_session`
 --
 ALTER TABLE `x_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
