@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Мар 07 2017 г., 23:18
+-- Время создания: Мар 12 2017 г., 23:00
 -- Версия сервера: 5.6.26-log
 -- Версия PHP: 5.6.12
 
@@ -23,6 +23,42 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `answers`
+--
+
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `lesson_id` int(11) NOT NULL DEFAULT '0',
+  `session` varchar(255) NOT NULL DEFAULT '',
+  `item` int(11) NOT NULL DEFAULT '0',
+  `answer` varchar(255) NOT NULL DEFAULT '',
+  `status` tinyint(2) NOT NULL DEFAULT '0',
+  `date_ask` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_answer` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `answers`
+--
+
+INSERT INTO `answers` (`id`, `user_id`, `lesson_id`, `session`, `item`, `answer`, `status`, `date_ask`, `date_answer`) VALUES
+(1, 1, 1, '1f9cba4f3d6ffdf520386b135680114c', 7, 'M', 1, '2017-03-10 21:51:56', '0000-00-00 00:00:00'),
+(2, 1, 1, '1f9cba4f3d6ffdf520386b135680114c', 6, '', 0, '2017-03-10 21:52:13', '0000-00-00 00:00:00'),
+(3, 1, 1, 'bc91b77e0bb18323f463ca3fb8cae7eb', 4, '', 1, '2017-03-11 16:50:19', '0000-00-00 00:00:00'),
+(4, 0, 0, '', 0, '7', 2, '0000-00-00 00:00:00', '2017-03-11 17:09:40'),
+(5, 0, 0, '', 0, '5', 2, '0000-00-00 00:00:00', '2017-03-11 17:09:42'),
+(6, 0, 0, '', 0, '3', 2, '0000-00-00 00:00:00', '2017-03-11 17:09:51'),
+(7, 0, 0, '', 0, '4', 2, '0000-00-00 00:00:00', '2017-03-11 17:11:01'),
+(8, 1, 1, 'bc91b77e0bb18323f463ca3fb8cae7eb', 1, '', 1, '2017-03-11 17:11:11', '0000-00-00 00:00:00'),
+(9, 0, 0, '', 0, '6', 2, '0000-00-00 00:00:00', '2017-03-11 17:12:01'),
+(10, 0, 0, '', 0, '1', 2, '0000-00-00 00:00:00', '2017-03-11 17:12:08'),
+(11, 0, 0, '', 0, '4', 2, '0000-00-00 00:00:00', '2017-03-11 17:13:24'),
+(12, 0, 0, '', 0, '2', 2, '0000-00-00 00:00:00', '2017-03-11 17:13:24');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `lessons`
 --
 
@@ -31,6 +67,8 @@ CREATE TABLE `lessons` (
   `level` int(11) NOT NULL DEFAULT '0',
   `type` tinyint(2) NOT NULL DEFAULT '0',
   `order` tinyint(3) NOT NULL DEFAULT '0',
+  `attempts` int(11) NOT NULL DEFAULT '0',
+  `errors` int(11) NOT NULL DEFAULT '0',
   `status` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -39,10 +77,10 @@ CREATE TABLE `lessons` (
 -- Дамп данных таблицы `lessons`
 --
 
-INSERT INTO `lessons` (`id`, `level`, `type`, `order`, `status`, `date`) VALUES
-(1, 1, 1, 1, 1, '0000-00-00 00:00:00'),
-(2, 1, 1, 2, 1, '0000-00-00 00:00:00'),
-(3, 1, 1, 3, 1, '0000-00-00 00:00:00');
+INSERT INTO `lessons` (`id`, `level`, `type`, `order`, `attempts`, `errors`, `status`, `date`) VALUES
+(1, 1, 1, 1, 10, 5, 1, '0000-00-00 00:00:00'),
+(2, 1, 1, 2, 0, 0, 1, '0000-00-00 00:00:00'),
+(3, 1, 1, 3, 0, 0, 1, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -85,12 +123,15 @@ CREATE TABLE `questions` (
 --
 
 INSERT INTO `questions` (`id`, `lesson_id`, `element`, `type`, `use`, `status`, `date`) VALUES
-(1, 1, 'G', 1, 1, 1, '0000-00-00 00:00:00'),
-(2, 1, 'L', 1, 0, 1, '0000-00-00 00:00:00'),
-(3, 1, 'F', 1, 1, 1, '0000-00-00 00:00:00'),
-(4, 1, 'P', 1, 0, 1, '0000-00-00 00:00:00'),
-(5, 1, 'I', 1, 1, 1, '0000-00-00 00:00:00'),
-(6, 1, 'A', 1, 1, 1, '0000-00-00 00:00:00');
+(1, 1, 'T', 1, 1, 1, '0000-00-00 00:00:00'),
+(2, 1, 'H', 1, 1, 1, '0000-00-00 00:00:00'),
+(3, 1, 'J', 1, 0, 1, '0000-00-00 00:00:00'),
+(4, 1, 'P', 1, 1, 1, '0000-00-00 00:00:00'),
+(5, 1, 'A', 1, 0, 1, '0000-00-00 00:00:00'),
+(6, 1, 'V', 1, 1, 1, '0000-00-00 00:00:00'),
+(7, 1, 'M', 1, 1, 1, '0000-00-00 00:00:00'),
+(8, 1, 'Q', 1, 1, 1, '0000-00-00 00:00:00'),
+(9, 1, 'S', 1, 0, 1, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -112,7 +153,13 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `lesson_id`, `uuid`, `date`, `status`) VALUES
-(1, 1, 1, '0098f1d6b31c4cf17eaaf351c8467574', '2017-03-07 21:16:34', 1);
+(1, 1, 1, '0098f1d6b31c4cf17eaaf351c8467574', '2017-03-07 21:16:34', 1),
+(2, 0, 1, 'c06b995972c9f537dee325451fbba255', '2017-03-10 19:33:40', 1),
+(3, 1, 1, 'd1fb5959d7dc1e3c461b8fa4003ef7fe', '2017-03-10 19:34:06', 1),
+(4, 1, 1, '1f9cba4f3d6ffdf520386b135680114c', '2017-03-10 21:10:29', 1),
+(5, 0, 1, '2b78bc0884ec4b65eec5a4c9c0c73c11', '2017-03-11 16:49:58', 1),
+(6, 1, 1, 'bc91b77e0bb18323f463ca3fb8cae7eb', '2017-03-11 16:50:11', 1),
+(7, 1, 1, '694d2eb0ff0a1d3fe53f8605843bed73', '2017-03-12 19:36:17', 1);
 
 -- --------------------------------------------------------
 
@@ -144,7 +191,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `fathersname`, `password`, `country`, `email`, `birthday`, `status`, `bad_auth`, `bad_auth_time`, `bad_withdraw_answer`, `last_login`, `last_modified`, `last_ip`, `date`) VALUES
-(1, 'Slawik', 'Sivinyuk', '', 'dd8275800e16216360194ae9ab4a0eb2:1MHyW0kH7zbhfiqM', NULL, '279229931@qip.ru', '0000-00-00 00:00:00', 1, 0, NULL, 0, '2017-03-07 21:15:43', '0000-00-00 00:00:00', '127.0.0.1', '2017-03-05 20:34:10');
+(1, 'Slawik', 'Sivinyuk', '', 'dd8275800e16216360194ae9ab4a0eb2:1MHyW0kH7zbhfiqM', NULL, '279229931@qip.ru', '0000-00-00 00:00:00', 1, 0, NULL, 0, '2017-03-12 19:36:11', '0000-00-00 00:00:00', '127.0.0.1', '2017-03-05 20:34:10');
 
 -- --------------------------------------------------------
 
@@ -174,11 +221,17 @@ CREATE TABLE `x_session` (
 --
 
 INSERT INTO `x_session` (`id`, `session_id`, `time`, `userid`, `device_id`, `username`, `guest`, `guest_key`, `usertype`, `status`, `remember`, `gid`, `ip`, `user_agent`) VALUES
-(15, '5922f6f87932736aa75d6c06258371ce', 1488921415, 1, '', '279229931@qip.ru', 0, '', 'user', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0');
+(18, '9b7d193d7060c4ee7ed60de78d021a1d', 1489349969, 1, '', '279229931@qip.ru', 0, '', 'user', 1, 0, 0, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0');
 
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `answers`
+--
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `lessons`
@@ -223,6 +276,11 @@ ALTER TABLE `x_session`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `answers`
+--
+ALTER TABLE `answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
 -- AUTO_INCREMENT для таблицы `lessons`
 --
 ALTER TABLE `lessons`
@@ -236,12 +294,12 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT для таблицы `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT для таблицы `sessions`
 --
 ALTER TABLE `sessions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
@@ -251,7 +309,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `x_session`
 --
 ALTER TABLE `x_session`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
