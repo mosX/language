@@ -31,9 +31,17 @@
     });
 </script>
 
+                    
 <div class="container" ng-controller="lessonCtrl">
-    <div class="attempts">До завершения<span></span></div>
-    <div class="errors">У вас осталось попыток<span></span></div>
+    <div class="attempts">До завершения <span><?=$this->m->lesson->attempts_left?></span></div>
+    <div class="errors">У вас осталось попыток <span><?=$this->m->lesson->errors_left ?></span></div>
+    
+    <?php if($this->m->lesson->errors_left == 0){ ?>
+        <h2>Вы проиграли. Начните сначала</h2>
+    <?php } ?>
+    <?php if($this->m->lesson->attempts_left == 0){ ?>
+        <h2>Вы успешно прошли задание</h2>
+    <?php } ?>
     
     <input type="hidden" name="session" value="<?=$this->m->_path[3]?>" ng-init="session = '<?=$this->m->_path[3]?>'">
     <input type="hidden" name="lesson" value="<?=$this->m->_path[2]?>" ng-init="lesson = <?=$this->m->_path[2]?>">

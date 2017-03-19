@@ -13,12 +13,12 @@
         public function answerAction(){
             $this->disableTemplate();
             $this->disableView();            
-            
+            $lesson_id = (int)$_POST['lesson'];
             //проверяем или ответ был верен
             $this->m->_db->setQuery(
                         "SELECT * FROM `answers` WHERE `answers`.`item` = ".$_POST['item']
                         . " AND `answers`.`user_id` = ".$this->m->_user->id
-                        . " AND `answers`.`lesson_id` = ".$_POST['lesson']
+                        . " AND `answers`.`lesson_id` = ".$lesson_id
                         . " AND `answers`.`session` = '".$_POST['session']."'" 
                         . " AND `answers`.`status` = 0"
                         . " LIMIT 1"
@@ -28,7 +28,7 @@
             if(!$result){
                 //создаем неудачную попытку
                 $row->user_id = $result->user_id;
-                $row->lesson_id = $result->lesson_id;
+                $row->lesson_id = $lesson_id;
                 $row->session = $result->session;
                 $row->item = $result->item;
                 $row->answer = $_POST['item'];
@@ -116,8 +116,53 @@
 
                     if(!$session->checkSession($this->m->_path[2], $this->m->_path[3])) return;
                     
-                    $this->m->lesson = $lessons->getLesson($this->m->_path[2]);
-                    //p($this->m->lesson);
+                    $this->m->lesson = $lessons->getLesson($this->m->_path[2]); //получаем данные по урокам
+                    //получаем сколько верно отвеченых ответов и сколько ошибок
+                    $this->m->_db->setQuery(
+                                "SELECT `answers`.* "
+                                . " FROM `answers` "
+                                . " WHERE `answers`.`lesson_id` = ".$this->m->_path[2]
+                            );
+                    
+                    $this->m->success_answers = 0;
+                    $this->m->error_answers = 0;
+                    foreach($this->m->_db->loadObjectList() as $item){
+                        if($item->status == 1){
+                            $this->m->success_answers +=1;
+                        }else if($item->status == 2){
+                            $this->m->error_answers +=1;
+                        }
+                    }
+                        
+                    $this->m->lesson->attempts_left = $this->m->lesson->attempts - $this->m->success_answers;
+                    $this->m->lesson->errors_left = $this->m->lesson->errors - $this->m->error_answers;
+                    
+                    //Проверяем или мы закончили урок
+                    if($this->m->lesson->attempts_left == 0 || $this->m->lesson->errors_left == 0){
+                        //проверяем или нету уже записей на данную сессию
+                        $this->m->_db->setQuery(
+                                    "SELECT * FROM `lessons_results`"
+                                    . " WHERE `lessons_results`.`session` = '".$this->m->_path[3]."'"
+                                    . " AND `lessons_results`.`user_id` = '".$this->m->_user->id."'"
+                                    . " LIMIT 1"
+                                );
+                        $this->m->_db->loadObject($result);
+                                                
+                        if(!$result){
+                            $row->user_id = $this->m->_user->id;
+                            $row->lesson_id = $this->m->lesson->id;
+                            $row->date = date('Y-m-d H:i:s');
+                            $row->session = $this->m->_path[3];
+
+                            if($this->m->lesson->errors_left == 0){    //проиграл                            
+                                $row->status = 0;
+                            }else if($this->m->lesson->attempts_left == 0){   //выиграл
+                                $row->status = 1;
+                            }
+                            $this->m->_db->insertObject('lessons_results',$row);
+                        }
+                    }
+                    
                     $this->m->answer = $answers->checkActiveAnswers($this->m->_path[2], $this->m->_path[3]);
                     $this->m->data = $question->getElements($this->m->_path[2]);
                 }
